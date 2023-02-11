@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Mobile Verification</string>
+    <string name="mobile_verification">Mobile Verification</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="send_otp">We have sent an OTP on your mobile</string>
+    <string name="take_a_moment">Will just take a moment</string>
+    <string name="otp_send_to">OTP sent to +91 783 098 9877</string>
+    <string name="next">Next</string>
+    <string name="powered_by">Powered by</string>
+    <string name="verifying_your_otp">Verifying your OTP</string>
+    <string name="Loader_heading">Scheduling Auto Debit</string>
+    <string name="secure_txt">100% Secure</string>
+
+
+</resources>

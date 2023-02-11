@@ -1,0 +1,17 @@
+package com.example.mobileverification;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class BottomScreenLoader extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        BottomScreenLayout bottomScreenLayout=new BottomScreenLayout(this);
+        setContentView(bottomScreenLayout);
+
+    }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shape_my">
+    <padding android:left="20px"
+        android:top="3px"
+        android:right="20px"
+        android:bottom="3px" />
+    <corners android:radius="5dp" />
+    <solid android:color="#66e9e9e9" />
+</shape>
