@@ -59,14 +59,13 @@ public class BottomScreenLayout extends ConstraintLayout {
 
         CircleLoader circleLoader=new CircleLoader(context);
         bottomSection.addView(circleLoader);
-//        circleLoader.startAnimation();
 
-        ConstraintLayout.LayoutParams smallCirclelayoutParams= new Constraints.LayoutParams(350,350);
+
+        ConstraintLayout.LayoutParams smallCirclelayoutParams= new Constraints.LayoutParams(250,250);
         smallCirclelayoutParams.endToEnd=bottomSection.getId();
         smallCirclelayoutParams.startToStart=bottomSection.getId();
         smallCirclelayoutParams.topToBottom= cancelButton.getId();
         circleLoader.setLayoutParams(smallCirclelayoutParams);
-//        circleLoader.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
 
         TextView titleHeading=new TextView(context);
         titleHeading.setId(View.generateViewId());

@@ -214,6 +214,7 @@ public class InputScreenLayout extends ConstraintLayout {
         inputOtp.setId(View.generateViewId());
         inputOtp.setTextSize(20);
         inputOtp.setMaxLines(1);
+        inputOtp.setTextColor(ContextCompat.getColor(context,R.color.grey));
         inputOtp.setBackgroundResource(R.drawable.edittext_bg);
         bottomConstraintLayout.addView(inputOtp);
 
