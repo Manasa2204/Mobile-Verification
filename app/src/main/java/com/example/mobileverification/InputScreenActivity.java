@@ -1,30 +1,34 @@
 package com.example.mobileverification;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class MobileVerification extends AppCompatActivity {
+import java.lang.reflect.Field;
+
+public class InputScreenActivity extends AppCompatActivity {
 
     TextView resendbtn,otp;
-    int bottomSectionHeight;
+
+    @SuppressLint("SoonBlockedPrivateApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,28 +44,25 @@ public class MobileVerification extends AppCompatActivity {
                 .getMetrics(displayMetrics);
 
         int height=displayMetrics.heightPixels;
-        inputScreenLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {
-                    boolean isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime());
-                    int keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
-                    if(isKeyboardVisible){
-                        inputScreenLayout.bottomSection.animate().y(keyboardHeight-400).setDuration(200);
-                    }
-                    else{
-                        int currentBottom = inputScreenLayout.bottomSection.getTop();
-                        int h = height-(inputScreenLayout.bottomSection.getBottom()-currentBottom);
-                        inputScreenLayout.bottomSection.animate().y(h).setDuration(200).start();
-                    }
-                    return insets;
-                });
-            }
-        });
 
-
-
-
+//        inputScreenLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {
+//                    boolean isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime());
+//                    int keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+//                    if(isKeyboardVisible){
+//                        inputScreenLayout.bottomSection.animate().y(keyboardHeight-400).setDuration(200);
+//                    }
+//                    else{
+//                        int currentBottom = inputScreenLayout.bottomSection.getTop();
+//                        int h = height-(inputScreenLayout.bottomSection.getBottom()-currentBottom);
+//                        inputScreenLayout.bottomSection.animate().y(h).setDuration(200).start();
+//                    }
+//                    return insets;
+//                });
+//            }
+//        });
 
 
         inputScreenLayout.nextButton.setOnClickListener(new View.OnClickListener() {
@@ -71,17 +72,20 @@ public class MobileVerification extends AppCompatActivity {
                     inputScreenLayout.errorText.setVisibility(View.VISIBLE);
                     TextView setRequired=inputScreenLayout.errorText;
                     setRequired.setText("Required");
+                    inputScreenLayout.hline1.setBackgroundColor(ContextCompat.getColor(InputScreenActivity.this,R.color.invalidColor));
+                    inputScreenLayout.hline2.setBackgroundColor(ContextCompat.getColor(InputScreenActivity.this,R.color.invalidColor));
 
                 }
                 else{
-//                    BottomScreenLayout bottomScreenLayout=new BottomScreenLayout(MobileVerification.this);
-//                    inputScreenLayout.addView(bottomScreenLayout);
-                    Intent intent=new Intent(MobileVerification.this,BottomScreenLoader.class);
-                    startActivity(intent);
+                    BottomScreenLayout bottomScreenLayout=new BottomScreenLayout(InputScreenActivity.this);
+                    inputScreenLayout.addView(bottomScreenLayout);
+//                    startActivity(new Intent(InputScreenActivity.this,BottomScreenLoaderActivity.class));
                 }
 
             }
         });
+
+
 
         resendbtn=inputScreenLayout.resendButton;
 
@@ -102,10 +106,12 @@ public class MobileVerification extends AppCompatActivity {
             public void onFinish() {
                 resendbtn.setText(R.string.resend_otp);
                 resendbtn.setTypeface(Typeface.DEFAULT_BOLD);
-                resendbtn.setTextColor(ContextCompat.getColor(MobileVerification.this,R.color.nextbtnColor));
+                resendbtn.setTextColor(ContextCompat.getColor(InputScreenActivity.this,R.color.nextbtnColor));
             }
 
         }.start();
 
     }
+
+
 }

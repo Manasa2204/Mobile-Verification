@@ -37,7 +37,7 @@ public class CircleLoader extends ConstraintLayout {
 
         circle3=new ImageView(context);
         circle3.setId(View.generateViewId());
-        circle3.setBackground(drawCircle(ContextCompat.getColor(context,R.color.smallCircle3),Color.parseColor("#ffffff")));
+        circle3.setBackground(drawCircle(ContextCompat.getColor(context,R.color.smallCircle3),Color.parseColor("#ccffffff")));
 
         circle2=new ImageView(context);
         circle2.setId(View.generateViewId());
@@ -236,10 +236,10 @@ public class CircleLoader extends ConstraintLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         setUpUI(w);
 
-        rotationLength=(int) Math.round(w*0.2);
+        rotationLength=(int) Math.round(w*0.25);
         ConstraintLayout.LayoutParams circle3LayoutParams= (LayoutParams) circle3.getLayoutParams();
-        circle3LayoutParams.height =(int) Math.round(0.4*w);
-        circle3LayoutParams.width = (int) Math.round(0.4*w);
+        circle3LayoutParams.height =(int) Math.round(0.5*w);
+        circle3LayoutParams.width = (int) Math.round(0.5*w);
         circle3.setLayoutParams(circle3LayoutParams);
         circle3.setX(circle3Coordinate_x);
         circle3.setY(circle3Coordinate_y);
@@ -251,8 +251,8 @@ public class CircleLoader extends ConstraintLayout {
         });
 
         ConstraintLayout.LayoutParams circle2LayoutParams=(LayoutParams) circle2.getLayoutParams();
-        circle2LayoutParams.height =(int) Math.round(0.45*w);
-        circle2LayoutParams.width = (int) Math.round(0.45*w);
+        circle2LayoutParams.height =(int) Math.round(0.55*w);
+        circle2LayoutParams.width = (int) Math.round(0.55*w);
         circle2.setLayoutParams(circle2LayoutParams);
         circle2.setX(circle2Coordinate_x);
         circle2.setY(circle2Coordinate_y);
@@ -264,8 +264,8 @@ public class CircleLoader extends ConstraintLayout {
         });
 
         ConstraintLayout.LayoutParams circle1LayoutParams=(LayoutParams) circle1.getLayoutParams();
-        circle1LayoutParams.height =(int) Math.round(0.6*w);
-        circle1LayoutParams.width = (int) Math.round(0.6*w);
+        circle1LayoutParams.height =(int) Math.round(0.7*w);
+        circle1LayoutParams.width = (int) Math.round(0.7*w);
         circle1.setLayoutParams(circle3LayoutParams);
         circle1.setX(circle1Coordinate_x);
         circle1.setY(circle1Coordinate_y);
@@ -277,8 +277,8 @@ public class CircleLoader extends ConstraintLayout {
         });
 
         ConstraintLayout.LayoutParams circle4LayoutParams=(LayoutParams) circle4.getLayoutParams();
-        circle4LayoutParams.height =(int) Math.round(0.35*w);
-        circle4LayoutParams.width = (int) Math.round(0.35*w);
+        circle4LayoutParams.height =(int) Math.round(0.45*w);
+        circle4LayoutParams.width = (int) Math.round(0.45*w);
         circle4.setLayoutParams(circle4LayoutParams);
         circle4.setX(circle4Coordinate_x);
         circle4.setY(circle4Coordinate_y);
@@ -292,13 +292,13 @@ public class CircleLoader extends ConstraintLayout {
     }
 
     private void setUpUI(int w) {
-         circle1Coordinate_x=(int)Math.round(w*0.25);
-         circle1Coordinate_y=(int)Math.round(w*0.25);
+         circle1Coordinate_x=(int)Math.round(w*0.2);
+         circle1Coordinate_y=(int)Math.round(w*0.2);
          circle2Coordinate_x=(int)Math.round(w*0.45);
-         circle2Coordinate_y=(int)Math.round(w*0.25);
+         circle2Coordinate_y=(int)Math.round(w*0.2);
          circle3Coordinate_x=(int)Math.round(w*0.45);
          circle3Coordinate_y=(int)Math.round(w*0.45);
-         circle4Coordinate_x=(int)Math.round(w*0.25);
+         circle4Coordinate_x=(int)Math.round(w*0.2);
          circle4Coordinate_y=(int)Math.round(w*0.45);
     }
 

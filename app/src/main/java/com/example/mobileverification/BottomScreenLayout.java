@@ -1,7 +1,9 @@
 package com.example.mobileverification;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,10 +16,12 @@ import androidx.constraintlayout.widget.Constraints;
 import androidx.core.content.ContextCompat;
 
 public class BottomScreenLayout extends ConstraintLayout {
+    Context context;
     public BottomScreenLayout(@NonNull Context context) {
         super(context);
 
         setId(View.generateViewId());
+        this.context=context;
 
         ViewGroup.LayoutParams layoutParams=
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
@@ -49,19 +53,23 @@ public class BottomScreenLayout extends ConstraintLayout {
         ConstraintLayout.LayoutParams cancelButtonLayoutParams= new Constraints.LayoutParams(80, 80);
         cancelButtonLayoutParams.endToEnd=bottomSection.getId();
         cancelButtonLayoutParams.topToTop=bottomSection.getId();
-        cancelButtonLayoutParams.setMargins(cancelButtonLayoutParams.leftMargin,30 ,30,cancelButtonLayoutParams.bottomMargin);
+        cancelButtonLayoutParams.setMargins(cancelButtonLayoutParams.leftMargin,dpToPx(15) ,dpToPx(15),cancelButtonLayoutParams.bottomMargin);
         cancelButton.setLayoutParams(cancelButtonLayoutParams);
 
-//        ImageView smallCircle =new ImageView(context);
-//        smallCircle.setId(View.generateViewId());
-//        smallCircle.setBackgroundResource(R.drawable.circle);
-//        bottomSection.addView(smallCircle);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels;
+        int height=(int)Math.round(0.2*width);
 
         CircleLoader circleLoader=new CircleLoader(context);
+//        circleLoader.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
         bottomSection.addView(circleLoader);
 
 
-        ConstraintLayout.LayoutParams smallCirclelayoutParams= new Constraints.LayoutParams(250,250);
+        ConstraintLayout.LayoutParams smallCirclelayoutParams= new Constraints.LayoutParams(height,height);
         smallCirclelayoutParams.endToEnd=bottomSection.getId();
         smallCirclelayoutParams.startToStart=bottomSection.getId();
         smallCirclelayoutParams.topToBottom= cancelButton.getId();
@@ -79,7 +87,7 @@ public class BottomScreenLayout extends ConstraintLayout {
         titleHeadingLayoutParams.endToEnd=bottomSection.getId();
         titleHeadingLayoutParams.startToStart=bottomSection.getId();
         titleHeadingLayoutParams.topToBottom= circleLoader.getId();
-        titleHeadingLayoutParams.setMargins(titleHeadingLayoutParams.leftMargin,40,titleHeadingLayoutParams.rightMargin,titleHeadingLayoutParams.bottomMargin);
+        titleHeadingLayoutParams.setMargins(titleHeadingLayoutParams.leftMargin,dpToPx(20),titleHeadingLayoutParams.rightMargin,titleHeadingLayoutParams.bottomMargin);
         titleHeading.setLayoutParams(titleHeadingLayoutParams);
 
         TextView subText= new TextView(context);
@@ -93,7 +101,7 @@ public class BottomScreenLayout extends ConstraintLayout {
         subTextLayoutParams.startToStart=bottomSection.getId();
         subTextLayoutParams.endToEnd=bottomSection.getId();
         subTextLayoutParams.topToBottom=titleHeading.getId();
-        subTextLayoutParams.setMargins(subTextLayoutParams.leftMargin,20,subTextLayoutParams.rightMargin,subTextLayoutParams.bottomMargin);
+        subTextLayoutParams.setMargins(subTextLayoutParams.leftMargin,dpToPx(10),subTextLayoutParams.rightMargin,subTextLayoutParams.bottomMargin);
         subText.setLayoutParams(subTextLayoutParams);
 
         LinearLayout linearLayout=new LinearLayout(context);
@@ -106,7 +114,7 @@ public class BottomScreenLayout extends ConstraintLayout {
        linearLayoutParams.endToEnd=bottomSection.getId();
        linearLayoutParams.topToBottom=subText.getId();
        linearLayoutParams.bottomToBottom=bottomSection.getId();
-        linearLayoutParams.setMargins(linearLayoutParams.leftMargin,60,linearLayoutParams.rightMargin,30);
+        linearLayoutParams.setMargins(linearLayoutParams.leftMargin,dpToPx(30),linearLayoutParams.rightMargin,30);
         linearLayout.setLayoutParams(linearLayoutParams);
 
         ImageView logo= new ImageView(context);
@@ -114,7 +122,7 @@ public class BottomScreenLayout extends ConstraintLayout {
         logo.setImageResource(R.drawable.security_icon);
         linearLayout.addView(logo);
 
-        LinearLayout.LayoutParams logoLayoutParams=new LinearLayout.LayoutParams(42,42);
+        LinearLayout.LayoutParams logoLayoutParams=new LinearLayout.LayoutParams(dpToPx(14),dpToPx(14));
         logo.setLayoutParams(logoLayoutParams);
 
         TextView securityTxt= new TextView(context);
@@ -125,10 +133,13 @@ public class BottomScreenLayout extends ConstraintLayout {
         linearLayout.addView(securityTxt);
 
         LinearLayout.LayoutParams securityTxtLayoutParams= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        securityTxtLayoutParams.setMargins(5,securityTxtLayoutParams.topMargin,securityTxtLayoutParams.rightMargin,securityTxtLayoutParams.bottomMargin);
+        securityTxtLayoutParams.setMargins(dpToPx(2),securityTxtLayoutParams.topMargin,securityTxtLayoutParams.rightMargin,securityTxtLayoutParams.bottomMargin);
         securityTxt.setLayoutParams(securityTxtLayoutParams);
 
 
 
+    }
+    public int dpToPx(int dp) {
+        return (int)(dp * context.getResources().getDisplayMetrics().density);
     }
 }

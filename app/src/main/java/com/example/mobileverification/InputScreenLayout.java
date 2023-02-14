@@ -2,7 +2,9 @@ package com.example.mobileverification;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Constraints;
 import androidx.core.content.ContextCompat;
 
+import java.lang.reflect.Field;
+
 public class InputScreenLayout extends ConstraintLayout {
 
     ImageView backButton, cancelButton, smallCircle, bigCircle,graphicImage;
@@ -23,10 +27,12 @@ public class InputScreenLayout extends ConstraintLayout {
     EditText inputOtp;
     ConstraintLayout bottomConstraintLayout,bottomSection;
     View hline1,hline2;
+    Context context;
 
     public InputScreenLayout(@NonNull Context context) {
         super(context);
 
+        this.context=context;
         setId(View.generateViewId());
 
         ViewGroup.LayoutParams layoutParams=
@@ -51,7 +57,7 @@ public class InputScreenLayout extends ConstraintLayout {
         ConstraintLayout.LayoutParams backButtonlayoutParams= new Constraints.LayoutParams(80, 80);
         backButtonlayoutParams.startToStart=getId();
         backButtonlayoutParams.topToTop=getId();
-        backButtonlayoutParams.setMargins(50,50,backButtonlayoutParams.rightMargin,backButtonlayoutParams.bottomMargin);
+        backButtonlayoutParams.setMargins(dpToPx(15),dpToPx(15),backButtonlayoutParams.rightMargin,backButtonlayoutParams.bottomMargin);
         backButton.setLayoutParams(backButtonlayoutParams);
 
 
@@ -64,7 +70,7 @@ public class InputScreenLayout extends ConstraintLayout {
         ConstraintLayout.LayoutParams cancleButtonlayoutParams= new Constraints.LayoutParams(80, 80);
         cancleButtonlayoutParams.endToEnd=getId();
         cancleButtonlayoutParams.topToTop=getId();
-        cancleButtonlayoutParams.setMargins(cancleButtonlayoutParams.leftMargin,50,50,cancleButtonlayoutParams.bottomMargin);
+        cancleButtonlayoutParams.setMargins(cancleButtonlayoutParams.leftMargin,dpToPx(15),dpToPx(15),cancleButtonlayoutParams.bottomMargin);
         cancelButton.setLayoutParams(cancleButtonlayoutParams);
 
         pageTitle = new TextView(context);
@@ -89,11 +95,11 @@ public class InputScreenLayout extends ConstraintLayout {
         int width = displayMetrics.widthPixels;
         int height=displayMetrics.heightPixels;
 
-        int bigCircle=(int)Math.round(width*1.1);
+        int bigCircle=(int)Math.round(width*1.2);
         int smallCircle=(int)Math.round(width*0.2);
 
         int x_offset=(int)Math.round(width*0.1);
-        int y_offset=(int)Math.round(width*0.6);
+        int y_offset=(int)Math.round(width*0.65);
         int smallCircleY_Offset=(int)Math.round(width*0.05);
 
         this.smallCircle =new ImageView(context);
@@ -120,18 +126,20 @@ public class InputScreenLayout extends ConstraintLayout {
         bigCirclelayoutParams.setMargins(bigCirclelayoutParams.leftMargin,y_offset,bigCirclelayoutParams.rightMargin,bigCirclelayoutParams.bottomMargin);
         this.bigCircle.setLayoutParams(bigCirclelayoutParams);
 
+        int graphicY_offset=(int)Math.round(width*0.3);
+
         graphicImage=new ImageView(context);
-        graphicImage.setImageResource(R.drawable.graphic);
+        graphicImage.setImageResource(R.drawable.mobile_verification);
         addView(graphicImage);
 
-        int graphicImageHeight=(int)Math.round(height*0.18);
+        int graphicImageHeight=(int)Math.round(height*0.85);
 
-        ConstraintLayout.LayoutParams graphicImageLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,0);
+        ConstraintLayout.LayoutParams graphicImageLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,graphicImageHeight);
         graphicImageLayoutParams.endToEnd=getId();
         graphicImageLayoutParams.startToStart=getId();
+//        graphicImageLayoutParams.bottomToBottom=getId();
         graphicImageLayoutParams.topToTop=getId();
-        graphicImageLayoutParams.bottomToBottom=getId();
-        graphicImageLayoutParams.setMargins(graphicImageLayoutParams.leftMargin,graphicImageHeight,graphicImageLayoutParams.rightMargin,graphicImageLayoutParams.bottomMargin);
+        graphicImageLayoutParams.setMargins(graphicImageLayoutParams.leftMargin,graphicY_offset,graphicImageLayoutParams.rightMargin,graphicImageLayoutParams.bottomMargin);
         graphicImage.setLayoutParams(graphicImageLayoutParams);
 
 
@@ -186,14 +194,15 @@ public class InputScreenLayout extends ConstraintLayout {
 
         hline1=new View(context);
         hline1.setId(View.generateViewId());
-        hline1.setBackgroundResource(R.drawable.horizontal_line);
+        hline1.setBackgroundColor(ContextCompat.getColor(context,R.color.nextbtnColor));
+//        hline1.setBackgroundResource(R.drawable.horizontal_line);
         bottomConstraintLayout.addView(hline1);
 
-        ConstraintLayout.LayoutParams hLine1LayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 20);
+        ConstraintLayout.LayoutParams hLine1LayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 3);
         hLine1LayoutParams.endToEnd= bottomConstraintLayout.getId();
         hLine1LayoutParams.startToStart= bottomConstraintLayout.getId();
         hLine1LayoutParams.topToBottom= bottomSectionHeading.getId();
-        hLine1LayoutParams.setMargins(hLine1LayoutParams.leftMargin,20,hLine1LayoutParams.rightMargin,hLine1LayoutParams.bottomMargin);
+        hLine1LayoutParams.setMargins(hLine1LayoutParams.leftMargin,dpToPx(10),hLine1LayoutParams.rightMargin,hLine1LayoutParams.bottomMargin);
         hline1.setLayoutParams(hLine1LayoutParams);
 
 
@@ -207,33 +216,41 @@ public class InputScreenLayout extends ConstraintLayout {
         ConstraintLayout.LayoutParams inputTitleLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         inputTitleLayoutParams.startToStart= bottomConstraintLayout.getId();
         inputTitleLayoutParams.topToBottom=hline1.getId();
-        inputTitleLayoutParams.setMargins(70,20,inputTitleLayoutParams.rightMargin,inputTitleLayoutParams.bottomMargin);
+        inputTitleLayoutParams.setMargins(dpToPx(30),dpToPx(10),inputTitleLayoutParams.rightMargin,inputTitleLayoutParams.bottomMargin);
         inputTitle.setLayoutParams(inputTitleLayoutParams);
+
 
         inputOtp=new EditText(context);
         inputOtp.setId(View.generateViewId());
         inputOtp.setTextSize(20);
+        inputOtp.setTextCursorDrawable(R.drawable.cursor_bg);
+//        inputOtp.setInputType(InputType.TYPE_CLASS_NUMBER);
         inputOtp.setMaxLines(1);
+        inputOtp.setPadding(0,5,0,5);
         inputOtp.setTextColor(ContextCompat.getColor(context,R.color.grey));
         inputOtp.setBackgroundResource(R.drawable.edittext_bg);
         bottomConstraintLayout.addView(inputOtp);
 
+
+
         ConstraintLayout.LayoutParams inputOtpLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         inputOtpLayoutParams.startToStart= inputTitle.getId();
         inputOtpLayoutParams.topToBottom= inputTitle.getId();
-        inputOtpLayoutParams.setMargins(inputTitleLayoutParams.leftMargin,20,140,inputTitleLayoutParams.bottomMargin);
+        inputOtpLayoutParams.setMargins(inputTitleLayoutParams.leftMargin,dpToPx(10),inputOtpLayoutParams.rightMargin,inputTitleLayoutParams.bottomMargin);
         inputOtp.setLayoutParams(inputOtpLayoutParams);
+
 
         hline2=new View(context);
         hline2.setId(View.generateViewId());
-        hline2.setBackgroundResource(R.drawable.horizontal_line);
+        hline2.setBackgroundColor(ContextCompat.getColor(context,R.color.nextbtnColor));
+//        hline2.setBackgroundResource(R.drawable.horizontal_line);
         bottomConstraintLayout.addView(hline2);
 
-        ConstraintLayout.LayoutParams hline2LayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 20);
+        ConstraintLayout.LayoutParams hline2LayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 3);
         hline2LayoutParams.endToEnd= bottomConstraintLayout.getId();
         hline2LayoutParams.startToStart= bottomConstraintLayout.getId();
         hline2LayoutParams.topToBottom=inputOtp.getId();
-        hline2LayoutParams.setMargins(hline2LayoutParams.leftMargin,20,hline2LayoutParams.rightMargin,hline2LayoutParams.bottomMargin);
+        hline2LayoutParams.setMargins(hline2LayoutParams.leftMargin,dpToPx(10),hline2LayoutParams.rightMargin,hline2LayoutParams.bottomMargin);
         hline2.setLayoutParams(hline2LayoutParams);
 
         errorText =new TextView(context);
@@ -262,9 +279,9 @@ public class InputScreenLayout extends ConstraintLayout {
 
         ConstraintLayout.LayoutParams resendButtonLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         resendButtonLayoutParams.startToStart= bottomConstraintLayout.getId();
-        resendButtonLayoutParams.topToBottom=hline2.getId();
+        resendButtonLayoutParams.topToBottom=errorText.getId();
         resendButtonLayoutParams.endToEnd= bottomConstraintLayout.getId();
-        resendButtonLayoutParams.setMargins(resendButtonLayoutParams.leftMargin,20,resendButtonLayoutParams.rightMargin,resendButtonLayoutParams.bottomMargin);
+        resendButtonLayoutParams.setMargins(resendButtonLayoutParams.leftMargin,dpToPx(10),resendButtonLayoutParams.rightMargin,resendButtonLayoutParams.bottomMargin);
         resendButton.setLayoutParams(resendButtonLayoutParams);
 
 
@@ -283,11 +300,15 @@ public class InputScreenLayout extends ConstraintLayout {
         nextButtonLayoutParams.topToBottom= resendButton.getId();
         nextButtonLayoutParams.bottomToBottom= bottomConstraintLayout.getId();
         nextButtonLayoutParams.endToEnd= bottomConstraintLayout.getId();
-        nextButtonLayoutParams.setMargins(30,135,30,60);
+        nextButtonLayoutParams.setMargins(dpToPx(15),dpToPx(45),dpToPx(15),dpToPx(15));
         nextButton.setLayoutParams(nextButtonLayoutParams);
 
 
 
+    }
+
+    public int dpToPx(int dp) {
+        return (int)(dp * context.getResources().getDisplayMetrics().density);
     }
 
 }
