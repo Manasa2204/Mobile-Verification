@@ -18,49 +18,40 @@
         android:theme="@style/Theme.MobileVerification"
         tools:targetApi="31">
         <activity
-            android:name=".GalleryImageDisplayActivity"
-            android:exported="true">
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".DisplayImageActivity"
+            android:name=".CircleAnimationActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".BottomScreenLoaderActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".InputScreenActivity"
+            android:name=".EmailVerficationActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
-
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".GalleryImageDisplayActivity"
+            android:exported="true" />
+        <activity
+            android:name=".DisplayImageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".BottomScreenLoaderActivity"
+            android:exported="true" />
+        <activity
+            android:name=".InputScreenActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
 
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

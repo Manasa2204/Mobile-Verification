@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
         videoView=new VideoView(this);
         videoView.setId(View.generateViewId());
-
+        videoView.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE);
         videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.full_screen_loader);
         videoView.start();
         videoView.setOnCompletionListener(this);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         ConstraintLayout.LayoutParams cancelButtonLayoutParams= new Constraints.LayoutParams(80, 80);
         cancelButtonLayoutParams.endToEnd=constraintLayout.getId();
         cancelButtonLayoutParams.topToTop=constraintLayout.getId();
-        cancelButtonLayoutParams.setMargins(cancelButtonLayoutParams.leftMargin,50,50,cancelButtonLayoutParams.bottomMargin);
+        cancelButtonLayoutParams.setMargins(cancelButtonLayoutParams.leftMargin,dpToPx(15),dpToPx(15),cancelButtonLayoutParams.bottomMargin);
         cancelButton.setLayoutParams(cancelButtonLayoutParams);
 
         ConstraintLayout endConstraint=new ConstraintLayout(this);
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         subTxtLayoutParams.endToEnd=endConstraint.getId();
         subTxtLayoutParams.startToStart=endConstraint.getId();
         subTxtLayoutParams.topToBottom=verificationTxt.getId();
-        subTxtLayoutParams.setMargins(subTxtLayoutParams.leftMargin,20,subTxtLayoutParams.rightMargin,subTxtLayoutParams.bottomMargin);
+        subTxtLayoutParams.setMargins(subTxtLayoutParams.leftMargin,dpToPx(10),subTxtLayoutParams.rightMargin,subTxtLayoutParams.bottomMargin);
         subTxt.setLayoutParams(subTxtLayoutParams);
 
         LinearLayout linearLayout=new LinearLayout(this);
@@ -115,19 +116,20 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         LinearLayoutParams.startToStart=endConstraint.getId();
         LinearLayoutParams.topToBottom=subTxt.getId();
         LinearLayoutParams.bottomToBottom=endConstraint.getId();
-        LinearLayoutParams.setMargins(LinearLayoutParams.leftMargin,90,LinearLayoutParams.rightMargin,42);
+        LinearLayoutParams.setMargins(LinearLayoutParams.leftMargin,dpToPx(30),LinearLayoutParams.rightMargin,42);
         linearLayout.setLayoutParams(LinearLayoutParams);
 
 
         TextView poweredTxt=new TextView(this);
         poweredTxt.setText(R.string.powered_by);
+        poweredTxt.setTextColor(ContextCompat.getColor(this,R.color.grey));
         linearLayout.addView(poweredTxt);
 
         LinearLayout.LayoutParams poweredByLayoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         poweredTxt.setLayoutParams(poweredByLayoutParams);
 
         View horizontalLine= new View(this);
-        horizontalLine.setBackgroundColor(getResources().getColor(R.color.grey));
+        horizontalLine.setBackgroundColor(ContextCompat.getColor(this,R.color.grey));
         linearLayout.addView(horizontalLine);
 
         LinearLayout.LayoutParams HorizontalLineLayoutParams=new LinearLayout.LayoutParams(4,40);
@@ -144,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
     }
 
+    public int dpToPx(int dp) {
+        return (int)(dp * this.getResources().getDisplayMetrics().density);
+    }
 
     @Override
     public void onCompletion(MediaPlayer mp)

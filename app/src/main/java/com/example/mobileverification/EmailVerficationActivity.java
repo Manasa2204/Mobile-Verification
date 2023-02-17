@@ -1,144 +1,195 @@
 package com.example.mobileverification;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Constraints;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
+import androidx.navigation.ActivityNavigator;
+import androidx.transition.Slide;
+
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.graphics.Typeface;
-import android.text.InputType;
+import android.os.Build;
+import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.ChangeBounds;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeScroll;
+import android.transition.ChangeTransform;
+import android.transition.Explode;
+import android.transition.Transition;
+import android.transition.TransitionValues;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Constraints;
-import androidx.core.content.ContextCompat;
+public class EmailVerficationActivity extends AppCompatActivity {
 
-import java.lang.reflect.Field;
-
-public class InputScreenLayout extends ConstraintLayout {
-
-    ImageView backButton, cancelButton, smallCircle, bigCircle,graphicImage;
-    TextView pageTitle, bottomSectionHeading, inputTitle, resendButton, nextButton, errorText;
+    ConstraintLayout constraintLayout,bottomSection,bottomConstraintLayout;
+    ImageView smallCircle,bigCircle,graphicImage,backButton,cancelButton;
+    TextView pageTitle,bottomSectionHeading,inputTitle,errorText,resendButton,nextButton;
     EditText inputOtp;
-    ConstraintLayout bottomConstraintLayout,bottomSection;
     View hline1,hline2;
-    Context context;
 
-    public InputScreenLayout(@NonNull Context context) {
-        super(context);
+ @Override
+ public void finish() {
+  super.finish();
 
-        this.context=context;
-        setId(View.generateViewId());
+ }
 
-        ViewGroup.LayoutParams layoutParams=
+ @Override
+ public void onBackPressed() {
+  super.onBackPressed();
+  ActivityCompat. finishAfterTransition(this);
+ }
+
+ @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        constraintLayout=new ConstraintLayout(this);
+        constraintLayout.setId(View.generateViewId());
+        constraintLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backGround));
+
+
+        ViewGroup.LayoutParams constraintLayoutParams=
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
 
-        setLayoutParams(layoutParams);
-        setBackgroundColor(ContextCompat.getColor(context,R.color.backGround));
+        constraintLayout.setLayoutParams(constraintLayoutParams);
+
+//        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+//        getWindow().setExitTransition(new Explode());
+
+        setContentView(constraintLayout);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+     constraintLayout.setFitsSystemWindows(true);
 
 
-        addChildViews(context);
-        setFitsSystemWindows(true);
+     addChildViews();
+
+     this.nextButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+       ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(EmailVerficationActivity.this, Pair.create(smallCircle,"smallCircletranslate"),Pair.create(bigCircle,"bigCircletranslate"));
+       Intent intent = new Intent(EmailVerficationActivity.this,CircleAnimationActivity.class);
+       startActivity(intent,activityOptionsCompat.toBundle());
+       overridePendingTransition(0, 0);
+
+      }
+     });
+
+     ChangeBounds bounds = new ChangeBounds();
+     bounds.setDuration(1000);
+     getWindow().setSharedElementEnterTransition(bounds);
 
     }
 
+    private void addChildViews() {
 
-    private void addChildViews(Context context) {
+      pageTitle = new TextView(this);
+      pageTitle.setId(View.generateViewId());
+      pageTitle.setText(R.string.email_verification);
+      pageTitle.setTextColor(ContextCompat.getColor(this,R.color.grey));
+      pageTitle.setTextSize(24);
+      pageTitle.setTypeface(Typeface.DEFAULT_BOLD);
+      constraintLayout.addView(pageTitle);
 
+      ConstraintLayout.LayoutParams pageTitlelayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      pageTitlelayoutParams.endToEnd=constraintLayout.getId();
+      pageTitlelayoutParams.startToStart=constraintLayout.getId();
+      pageTitlelayoutParams.topToTop=constraintLayout.getId();
+      pageTitlelayoutParams.setMargins(pageTitlelayoutParams.leftMargin,90,pageTitlelayoutParams.rightMargin,pageTitlelayoutParams.bottomMargin);
+      pageTitle.setLayoutParams(pageTitlelayoutParams);
 
-        pageTitle = new TextView(context);
-        pageTitle.setId(View.generateViewId());
-        pageTitle.setText(R.string.mobile_verification);
-        pageTitle.setTextColor(ContextCompat.getColor(context,R.color.grey));
-        pageTitle.setTextSize(24);
-        pageTitle.setTypeface(Typeface.DEFAULT_BOLD);
-        addView(pageTitle);
-
-        ConstraintLayout.LayoutParams pageTitlelayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pageTitlelayoutParams.endToEnd=getId();
-        pageTitlelayoutParams.startToStart=getId();
-        pageTitlelayoutParams.topToTop= getId();
-        pageTitlelayoutParams.setMargins(pageTitlelayoutParams.leftMargin,90,pageTitlelayoutParams.rightMargin,pageTitlelayoutParams.bottomMargin);
-        pageTitle.setLayoutParams(pageTitlelayoutParams);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) getContext()).getWindowManager()
+       this.getWindowManager()
                 .getDefaultDisplay()
                 .getMetrics(displayMetrics);
 
         int width = displayMetrics.widthPixels;
         int height=displayMetrics.heightPixels;
 
-        int bigCircle=(int)Math.round(width*1.2);
+        int bigCircle=(int)Math.round(width*0.6);
         int smallCircle=(int)Math.round(width*0.2);
 
-        int x_offset=(int)Math.round(width*0.1);
-        int y_offset=(int)Math.round(width*0.65);
-        int smallCircleY_Offset=(int)Math.round(width*0.05);
+       int bigCircleX= (int)Math.round(width*0.76);
+       int bigCircleY= (int)Math.round(height*0.15);
 
-        this.smallCircle =new ImageView(context);
-        this.smallCircle.setBackgroundResource(R.drawable.circle);
+       int smallCircleX= (int)Math.round(width*0.055);
+       int smallCircleY= (int)Math.round(height*0.35);
+
+
+        this.smallCircle =new ImageView(this);
         this.smallCircle.setId(R.id.small_circle);
         this.smallCircle.setTransitionName("smallCircletranslate");
-        addView(this.smallCircle);
+        this.smallCircle.setBackgroundResource(R.drawable.circle);
+        constraintLayout.addView(this.smallCircle);
 
         ConstraintLayout.LayoutParams smallCirclelayoutParams= new Constraints.LayoutParams(smallCircle,smallCircle);
-        smallCirclelayoutParams.endToEnd=getId();
-        smallCirclelayoutParams.startToStart=getId();
-        smallCirclelayoutParams.topToBottom= pageTitle.getId();
-        smallCirclelayoutParams.setMargins(x_offset,smallCircleY_Offset,smallCirclelayoutParams.rightMargin,smallCirclelayoutParams.bottomMargin);
-        this.smallCircle.setLayoutParams(smallCirclelayoutParams);
+        this.smallCircle.setX(-smallCircleX);
+        this.smallCircle.setY(smallCircleY);
+       this.smallCircle.setLayoutParams(smallCirclelayoutParams);
 
 
-        this.bigCircle =new ImageView(context);
+        this.bigCircle =new ImageView(this);
         this.bigCircle.setId(R.id.big_cirle);
-        this.smallCircle.setTransitionName("bigCircletranslate");
+        this.bigCircle.setTransitionName("bigCircletranslate");
         this.bigCircle.setBackgroundResource(R.drawable.circle);
-        addView(this.bigCircle);
+        constraintLayout.addView(this.bigCircle);
 
 
         ConstraintLayout.LayoutParams bigCirclelayoutParams= new Constraints.LayoutParams(bigCircle,bigCircle);
-        bigCirclelayoutParams.startToStart=getId();
-        bigCirclelayoutParams.endToEnd=getId();
-        bigCirclelayoutParams.topToTop=getId();
-        bigCirclelayoutParams.setMargins(bigCirclelayoutParams.leftMargin,y_offset,bigCirclelayoutParams.rightMargin,bigCirclelayoutParams.bottomMargin);
-        this.bigCircle.setLayoutParams(bigCirclelayoutParams);
+        this.bigCircle.setX(bigCircleX);
+        this.bigCircle.setY(-bigCircleY);
+       this.bigCircle.setLayoutParams(bigCirclelayoutParams);
 
-        int graphicY_offset=(int)Math.round(width*0.3);
 
-        graphicImage=new ImageView(context);
-        graphicImage.setImageResource(R.drawable.mobile_verification);
+        graphicImage=new ImageView(this);
+        graphicImage.setImageResource(R.drawable.email_verification);
         graphicImage.setTransitionName("graphicImageTranslate");
-        addView(graphicImage);
+        constraintLayout.addView(graphicImage);
 
         int graphicImageHeight=(int)Math.round(height*0.85);
+        int graphicY_offset=(int)Math.round(width*0.3);
 
         ConstraintLayout.LayoutParams graphicImageLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,graphicImageHeight);
-        graphicImageLayoutParams.endToEnd=getId();
-        graphicImageLayoutParams.startToStart=getId();
+        graphicImageLayoutParams.endToEnd=constraintLayout.getId();
+        graphicImageLayoutParams.startToStart=constraintLayout.getId();
 //        graphicImageLayoutParams.bottomToBottom=getId();
-        graphicImageLayoutParams.topToTop=getId();
+        graphicImageLayoutParams.topToTop=constraintLayout.getId();
         graphicImageLayoutParams.setMargins(graphicImageLayoutParams.leftMargin,graphicY_offset,graphicImageLayoutParams.rightMargin,graphicImageLayoutParams.bottomMargin);
         graphicImage.setLayoutParams(graphicImageLayoutParams);
 
 
-        bottomSection=new ConstraintLayout(context);
+        bottomSection=new ConstraintLayout(this);
         bottomSection.setId(View.generateViewId());
-        addView(bottomSection);
+        constraintLayout.addView(bottomSection);
 
         ConstraintLayout.LayoutParams bottomSectionConstraintLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        bottomSectionConstraintLayoutParams.endToEnd=getId();
-        bottomSectionConstraintLayoutParams.startToStart=getId();
-        bottomSectionConstraintLayoutParams.bottomToBottom=getId();
+        bottomSectionConstraintLayoutParams.endToEnd=constraintLayout.getId();
+        bottomSectionConstraintLayoutParams.startToStart=constraintLayout.getId();
+        bottomSectionConstraintLayoutParams.bottomToBottom=constraintLayout.getId();
         bottomSection.setLayoutParams(bottomSectionConstraintLayoutParams);
 
 
-        View gradientView=new View(context);
+        View gradientView=new View(this);
         gradientView.setBackgroundResource(R.drawable.gradient_bg);
         gradientView.setId(View.generateViewId());
         bottomSection.addView(gradientView);
@@ -150,9 +201,9 @@ public class InputScreenLayout extends ConstraintLayout {
         gradientView.setLayoutParams(gradientViewLayoutParams);
 
 
-        bottomConstraintLayout =new ConstraintLayout(context);
+        bottomConstraintLayout =new ConstraintLayout(this);
         bottomConstraintLayout.setId(View.generateViewId());
-        bottomConstraintLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.white));
+        bottomConstraintLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.white));
         bottomSection.addView(bottomConstraintLayout);
 
         ConstraintLayout.LayoutParams constraintLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -163,10 +214,10 @@ public class InputScreenLayout extends ConstraintLayout {
 
 
 
-        bottomSectionHeading =new TextView(context);
+        bottomSectionHeading =new TextView(this);
         bottomSectionHeading.setId(View.generateViewId());
         bottomSectionHeading.setText(R.string.send_otp);
-        bottomSectionHeading.setTextColor(ContextCompat.getColor(context,R.color.grey));
+        bottomSectionHeading.setTextColor(ContextCompat.getColor(this,R.color.grey));
         bottomSectionHeading.setTextSize(14);
         bottomConstraintLayout.addView(bottomSectionHeading);
 
@@ -176,9 +227,9 @@ public class InputScreenLayout extends ConstraintLayout {
         bottomSectionHeadingLayoutParams.topToTop= bottomConstraintLayout.getId();
         bottomSectionHeading.setLayoutParams(bottomSectionHeadingLayoutParams);
 
-        hline1=new View(context);
+        hline1=new View(this);
         hline1.setId(View.generateViewId());
-        hline1.setBackgroundColor(ContextCompat.getColor(context,R.color.nextbtnColor));
+        hline1.setBackgroundColor(ContextCompat.getColor(this,R.color.nextbtnColor));
 //        hline1.setBackgroundResource(R.drawable.horizontal_line);
         bottomConstraintLayout.addView(hline1);
 
@@ -190,7 +241,7 @@ public class InputScreenLayout extends ConstraintLayout {
         hline1.setLayoutParams(hLine1LayoutParams);
 
 
-        inputTitle = new TextView(context);
+        inputTitle = new TextView(this);
         inputTitle.setId(View.generateViewId());
         inputTitle.setTextSize(14);
         inputTitle.setText(R.string.otp_send_to);
@@ -204,14 +255,16 @@ public class InputScreenLayout extends ConstraintLayout {
         inputTitle.setLayoutParams(inputTitleLayoutParams);
 
 
-        inputOtp=new EditText(context);
+        inputOtp=new EditText(this);
         inputOtp.setId(View.generateViewId());
         inputOtp.setTextSize(20);
-        inputOtp.setTextCursorDrawable(R.drawable.cursor_bg);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            inputOtp.setTextCursorDrawable(R.drawable.cursor_bg);
+        }
 //        inputOtp.setInputType(InputType.TYPE_CLASS_NUMBER);
         inputOtp.setMaxLines(1);
         inputOtp.setPadding(0,5,0,5);
-        inputOtp.setTextColor(ContextCompat.getColor(context,R.color.grey));
+        inputOtp.setTextColor(ContextCompat.getColor(this,R.color.grey));
         inputOtp.setBackgroundResource(R.drawable.edittext_bg);
         bottomConstraintLayout.addView(inputOtp);
 
@@ -224,9 +277,9 @@ public class InputScreenLayout extends ConstraintLayout {
         inputOtp.setLayoutParams(inputOtpLayoutParams);
 
 
-        hline2=new View(context);
+        hline2=new View(this);
         hline2.setId(View.generateViewId());
-        hline2.setBackgroundColor(ContextCompat.getColor(context,R.color.nextbtnColor));
+        hline2.setBackgroundColor(ContextCompat.getColor(this,R.color.nextbtnColor));
 //        hline2.setBackgroundResource(R.drawable.horizontal_line);
         bottomConstraintLayout.addView(hline2);
 
@@ -237,12 +290,12 @@ public class InputScreenLayout extends ConstraintLayout {
         hline2LayoutParams.setMargins(hline2LayoutParams.leftMargin,dpToPx(10),hline2LayoutParams.rightMargin,hline2LayoutParams.bottomMargin);
         hline2.setLayoutParams(hline2LayoutParams);
 
-        errorText =new TextView(context);
+        errorText =new TextView(this);
         errorText.setId(View.generateViewId());
         errorText.setTextSize(14);
         errorText.setText("Invalid");
-        errorText.setVisibility(INVISIBLE);
-        errorText.setTextColor(ContextCompat.getColor(context,R.color.invalidColor));
+        errorText.setVisibility(View.INVISIBLE);
+        errorText.setTextColor(ContextCompat.getColor(this,R.color.invalidColor));
         errorText.setBackgroundResource(R.drawable.invalid_bg);
         bottomConstraintLayout.addView(errorText);
 
@@ -254,11 +307,11 @@ public class InputScreenLayout extends ConstraintLayout {
         errorText.setLayoutParams(errorTextLayoutParams);
 
 
-        resendButton = new TextView(context);
+        resendButton = new TextView(this);
         resendButton.setId(View.generateViewId());
         resendButton.setTextSize(12);
         resendButton.setText(R.string.resend_otp);
-        resendButton.setTextColor(ContextCompat.getColor(context,R.color.ResendColor));
+        resendButton.setTextColor(ContextCompat.getColor(this,R.color.ResendColor));
         bottomConstraintLayout.addView(resendButton);
 
         ConstraintLayout.LayoutParams resendButtonLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -269,14 +322,14 @@ public class InputScreenLayout extends ConstraintLayout {
         resendButton.setLayoutParams(resendButtonLayoutParams);
 
 
-        nextButton = new TextView(context);
+        nextButton = new TextView(this);
         nextButton.setId(View.generateViewId());
         nextButton.setTextSize(16);
         nextButton.setTypeface(Typeface.DEFAULT_BOLD);
         nextButton.setText(R.string.next);
         nextButton.setBackgroundResource(R.drawable.nextbtn_bg);
         nextButton.setGravity(Gravity.CENTER_HORIZONTAL| Gravity.CENTER_VERTICAL);
-        nextButton.setTextColor(ContextCompat.getColor(context,R.color.textColor));
+        nextButton.setTextColor(ContextCompat.getColor(this,R.color.textColor));
         bottomConstraintLayout.addView(nextButton);
 
         ConstraintLayout.LayoutParams nextButtonLayoutParams= new Constraints.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 138);
@@ -284,38 +337,41 @@ public class InputScreenLayout extends ConstraintLayout {
         nextButtonLayoutParams.topToBottom= resendButton.getId();
         nextButtonLayoutParams.bottomToBottom= bottomConstraintLayout.getId();
         nextButtonLayoutParams.endToEnd= bottomConstraintLayout.getId();
-        nextButtonLayoutParams.setMargins(dpToPx(15),dpToPx(60),dpToPx(15),dpToPx(15));
+        nextButtonLayoutParams.setMargins(dpToPx(15),dpToPx(45),dpToPx(15),dpToPx(15));
         nextButton.setLayoutParams(nextButtonLayoutParams);
 
-        backButton = new ImageView(context);
+        backButton = new ImageView(this);
         backButton.setId(View.generateViewId());
         backButton.setImageResource(R.drawable.back);
         backButton.setBackgroundResource(R.drawable.icon_bg);
-        addView(backButton);
+        constraintLayout.addView(backButton);
 
         ConstraintLayout.LayoutParams backButtonlayoutParams= new Constraints.LayoutParams(80, 80);
-        backButtonlayoutParams.startToStart=getId();
-        backButtonlayoutParams.topToTop=getId();
+        backButtonlayoutParams.startToStart=constraintLayout.getId();
+        backButtonlayoutParams.topToTop=constraintLayout.getId();
         backButtonlayoutParams.setMargins(dpToPx(15),dpToPx(15),backButtonlayoutParams.rightMargin,backButtonlayoutParams.bottomMargin);
         backButton.setLayoutParams(backButtonlayoutParams);
 
 
-        cancelButton = new ImageView(context);
+        cancelButton = new ImageView(this);
         cancelButton.setId(View.generateViewId());
         cancelButton.setImageResource(R.drawable.cancel);
         cancelButton.setBackgroundResource(R.drawable.icon_bg);
-        addView(cancelButton);
+        constraintLayout.addView(cancelButton);
 
         ConstraintLayout.LayoutParams cancleButtonlayoutParams= new Constraints.LayoutParams(80, 80);
-        cancleButtonlayoutParams.endToEnd=getId();
-        cancleButtonlayoutParams.topToTop=getId();
+        cancleButtonlayoutParams.endToEnd=constraintLayout.getId();
+        cancleButtonlayoutParams.topToTop=constraintLayout.getId();
         cancleButtonlayoutParams.setMargins(cancleButtonlayoutParams.leftMargin,dpToPx(15),dpToPx(15),cancleButtonlayoutParams.bottomMargin);
         cancelButton.setLayoutParams(cancleButtonlayoutParams);
 
     }
 
     public int dpToPx(int dp) {
-        return (int)(dp * context.getResources().getDisplayMetrics().density);
+        return (int)(dp * this.getResources().getDisplayMetrics().density);
     }
+
+
+
 
 }
