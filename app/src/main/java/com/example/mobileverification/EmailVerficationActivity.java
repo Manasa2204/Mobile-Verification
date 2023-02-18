@@ -45,17 +45,6 @@ public class EmailVerficationActivity extends AppCompatActivity {
     EditText inputOtp;
     View hline1,hline2;
 
- @Override
- public void finish() {
-  super.finish();
-
- }
-
- @Override
- public void onBackPressed() {
-  super.onBackPressed();
-  ActivityCompat. finishAfterTransition(this);
- }
 
  @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,37 +56,24 @@ public class EmailVerficationActivity extends AppCompatActivity {
         constraintLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backGround));
 
 
+
         ViewGroup.LayoutParams constraintLayoutParams=
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
 
         constraintLayout.setLayoutParams(constraintLayoutParams);
-
-//        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-//        getWindow().setExitTransition(new Explode());
 
         setContentView(constraintLayout);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
      constraintLayout.setFitsSystemWindows(true);
 
-
      addChildViews();
 
-     this.nextButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-       ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(EmailVerficationActivity.this, Pair.create(smallCircle,"smallCircletranslate"),Pair.create(bigCircle,"bigCircletranslate"));
-       Intent intent = new Intent(EmailVerficationActivity.this,CircleAnimationActivity.class);
-       startActivity(intent,activityOptionsCompat.toBundle());
-       overridePendingTransition(0, 0);
+    }
 
-      }
-     });
-
-     ChangeBounds bounds = new ChangeBounds();
-     bounds.setDuration(1000);
-     getWindow().setSharedElementEnterTransition(bounds);
-
+    @Override
+    public void onBackPressed() {
+     finishAfterTransition();
     }
 
     private void addChildViews() {
@@ -371,7 +347,25 @@ public class EmailVerficationActivity extends AppCompatActivity {
         return (int)(dp * this.getResources().getDisplayMetrics().density);
     }
 
+ @Override
+    protected void onRestart() {
+     super.onRestart();
+     postponeEnterTransition();
+     bigCircle.post(new Runnable() {
+      @Override
+      public void run() {
+       startPostponedEnterTransition();
+      }
+     });
 
+     smallCircle.post(new Runnable() {
+      @Override
+      public void run() {
+       startPostponedEnterTransition();
+
+      }
+     });
+    }
 
 
 }

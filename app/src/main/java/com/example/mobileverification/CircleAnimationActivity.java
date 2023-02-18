@@ -34,8 +34,8 @@ public class CircleAnimationActivity extends AppCompatActivity {
             }
         });
 
-        ChangeBounds bounds = new ChangeBounds();
-        bounds.setDuration(1000);
-        getWindow().setSharedElementEnterTransition(bounds);
+//        ChangeBounds bounds = new ChangeBounds();
+//        bounds.setDuration(1000);
+//        getWindow().setSharedElementEnterTransition(bounds);
     }
 }

@@ -1,37 +1,21 @@
 package com.example.mobileverification;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 
-import android.animation.Animator;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 
-import android.transition.Explode;
-import android.transition.Transition;
-import android.transition.TransitionValues;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class InputScreenActivity extends AppCompatActivity {
@@ -63,6 +47,8 @@ public class InputScreenActivity extends AppCompatActivity {
         int bigCircleSize=(int)Math.round(width*0.2);
         int smallCircleSize=(int)Math.round(width*0.2);
 
+        EmailVerficationActivity emailVerficationActivity=new EmailVerficationActivity();
+
         inputScreenLayout.nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,10 +63,10 @@ public class InputScreenActivity extends AppCompatActivity {
                     ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(InputScreenActivity.this, Pair.create(inputScreenLayout.smallCircle,"smallCircletranslate"),Pair.create(inputScreenLayout.bigCircle,"bigCircletranslate"));
                     Intent intent = new Intent(InputScreenActivity.this,EmailVerficationActivity.class);
                     startActivity(intent,activityOptionsCompat.toBundle());
-                    overridePendingTransition(0, 0);
 
 
-//                    startActivity(new Intent(InputScreenActivity.this,MainActivity.class));
+
+//                    startActivity(new Intent(InputScreenActivity.this,EmailVerficationActivity.class));
 
 
                 }
@@ -164,6 +150,7 @@ public class InputScreenActivity extends AppCompatActivity {
 //        });
 //        valueAnimator.start();
 //    }
+
 
 
 }
