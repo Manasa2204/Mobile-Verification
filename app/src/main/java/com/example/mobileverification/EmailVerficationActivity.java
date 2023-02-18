@@ -12,8 +12,12 @@ import androidx.core.util.Pair;
 import androidx.navigation.ActivityNavigator;
 import androidx.transition.Slide;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -33,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +56,7 @@ public class EmailVerficationActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+
         constraintLayout=new ConstraintLayout(this);
         constraintLayout.setId(View.generateViewId());
         constraintLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backGround));
@@ -65,9 +71,20 @@ public class EmailVerficationActivity extends AppCompatActivity {
         setContentView(constraintLayout);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-     constraintLayout.setFitsSystemWindows(true);
+       constraintLayout.setFitsSystemWindows(true);
 
-     addChildViews();
+       addChildViews();
+
+       ObjectAnimator animation = ObjectAnimator.ofFloat(graphicImage, "rotationY", 90f, 0f);
+       animation.setDuration(500);
+
+       animation.setInterpolator(new AccelerateDecelerateInterpolator());
+       ObjectAnimator animation2=ObjectAnimator.ofFloat(graphicImage,"alpha",0.5f,1.0f);
+       animation2.setDuration(500);
+       AnimatorSet scaleAnimatorSet = new AnimatorSet();
+       scaleAnimatorSet.playTogether(animation2, animation);
+       scaleAnimatorSet.start();
+
 
     }
 

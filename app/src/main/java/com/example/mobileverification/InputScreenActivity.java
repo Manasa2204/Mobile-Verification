@@ -1,10 +1,16 @@
 package com.example.mobileverification;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,6 +21,8 @@ import android.text.style.StyleSpan;
 
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,14 +48,7 @@ public class InputScreenActivity extends AppCompatActivity {
                 .getDefaultDisplay()
                 .getMetrics(displayMetrics);
 
-        int height=displayMetrics.heightPixels;
-
         int width = displayMetrics.widthPixels;
-
-        int bigCircleSize=(int)Math.round(width*0.2);
-        int smallCircleSize=(int)Math.round(width*0.2);
-
-        EmailVerficationActivity emailVerficationActivity=new EmailVerficationActivity();
 
         inputScreenLayout.nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +61,46 @@ public class InputScreenActivity extends AppCompatActivity {
 //                    inputScreenLayout.hline2.setBackgroundColor(ContextCompat.getColor(InputScreenActivity.this,R.color.invalidColor));
 
 
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(inputScreenLayout.graphicImage, "rotationY", 0.0f, 90f);
+                    animation.setDuration(500);
+                    animation.setInterpolator(new AccelerateDecelerateInterpolator());
+                    ObjectAnimator animation2=ObjectAnimator.ofFloat(inputScreenLayout.graphicImage,"alpha",1.0f,0.6f);
+                    animation2.setDuration(500);
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.playTogether(animation2, animation);
+                    animatorSet.start();
+
+
                     ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(InputScreenActivity.this, Pair.create(inputScreenLayout.smallCircle,"smallCircletranslate"),Pair.create(inputScreenLayout.bigCircle,"bigCircletranslate"));
                     Intent intent = new Intent(InputScreenActivity.this,EmailVerficationActivity.class);
                     startActivity(intent,activityOptionsCompat.toBundle());
 
+
+                    animation.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(@NonNull Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(@NonNull Animator animation) {
+                            animatorSet.reverse();
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(@NonNull Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(@NonNull Animator animation) {
+
+                        }
+                    });
+
+
+//                    overridePendingTransition(R.anim.flip_left,R.anim.flip_right);
 
 
 //                    startActivity(new Intent(InputScreenActivity.this,EmailVerficationActivity.class));
@@ -150,7 +187,5 @@ public class InputScreenActivity extends AppCompatActivity {
 //        });
 //        valueAnimator.start();
 //    }
-
-
 
 }
