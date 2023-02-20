@@ -10,6 +10,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -61,43 +62,44 @@ public class InputScreenActivity extends AppCompatActivity {
 //                    inputScreenLayout.hline2.setBackgroundColor(ContextCompat.getColor(InputScreenActivity.this,R.color.invalidColor));
 
 
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(inputScreenLayout.graphicImage, "rotationY", 0.0f, 90f);
-                    animation.setDuration(500);
-                    animation.setInterpolator(new AccelerateDecelerateInterpolator());
-                    ObjectAnimator animation2=ObjectAnimator.ofFloat(inputScreenLayout.graphicImage,"alpha",1.0f,0.6f);
-                    animation2.setDuration(500);
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(animation2, animation);
-                    animatorSet.start();
+//                    ObjectAnimator animation = ObjectAnimator.ofFloat(inputScreenLayout.graphicImage, "rotationY", 0.0f, 90f);
+//                    animation.setDuration(500);
+//                    animation.setInterpolator(new AccelerateDecelerateInterpolator());
+//                    ObjectAnimator animation2=ObjectAnimator.ofFloat(inputScreenLayout.graphicImage,"alpha",1.0f,0.6f);
+//                    animation2.setDuration(500);
+//                    AnimatorSet animatorSet = new AnimatorSet();
+//                    animatorSet.playTogether(animation2, animation);
+//                    animatorSet.start();
 
 
-                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(InputScreenActivity.this, Pair.create(inputScreenLayout.smallCircle,"smallCircletranslate"),Pair.create(inputScreenLayout.bigCircle,"bigCircletranslate"));
+                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(InputScreenActivity.this, Pair.create(inputScreenLayout.smallCircle,"smallCircletranslate"),Pair.create(inputScreenLayout.bigCircle,"bigCircletranslate"),Pair.create(inputScreenLayout.graphicImage,"graphicImageTranslate"));
+
                     Intent intent = new Intent(InputScreenActivity.this,EmailVerficationActivity.class);
                     startActivity(intent,activityOptionsCompat.toBundle());
+//                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 
-
-                    animation.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(@NonNull Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(@NonNull Animator animation) {
-                            animatorSet.reverse();
-
-                        }
-
-                        @Override
-                        public void onAnimationCancel(@NonNull Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(@NonNull Animator animation) {
-
-                        }
-                    });
+//                    animation.addListener(new Animator.AnimatorListener() {
+//                        @Override
+//                        public void onAnimationStart(@NonNull Animator animation) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onAnimationEnd(@NonNull Animator animation) {
+//                            animatorSet.reverse();
+//
+//                        }
+//
+//                        @Override
+//                        public void onAnimationCancel(@NonNull Animator animation) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(@NonNull Animator animation) {
+//
+//                        }
+//                    });
 
 
 //                    overridePendingTransition(R.anim.flip_left,R.anim.flip_right);

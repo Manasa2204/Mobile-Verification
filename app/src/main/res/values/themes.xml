@@ -16,7 +16,8 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
 
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowSharedElementReenterTransition"></item>
+
+        <item name="android:windowSharedElementEnterTransition">@transition/explode</item>
 
 
     </style>
