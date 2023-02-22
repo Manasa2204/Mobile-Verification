@@ -75,15 +75,15 @@ public class EmailVerficationActivity extends AppCompatActivity {
 
        addChildViews();
 
-//       ObjectAnimator animation = ObjectAnimator.ofFloat(graphicImage, "rotationY", 90f, 0f);
-//       animation.setDuration(500);
-//
-//       animation.setInterpolator(new AccelerateDecelerateInterpolator());
-//       ObjectAnimator animation2=ObjectAnimator.ofFloat(graphicImage,"alpha",0.5f,1.0f);
-//       animation2.setDuration(500);
-//       AnimatorSet animatorSet = new AnimatorSet();
-//       animatorSet.playTogether(animation2, animation);
-//       animatorSet.start();
+       ObjectAnimator animation = ObjectAnimator.ofFloat(graphicImage, "rotationY", 90f, 0f);
+       animation.setDuration(300);
+
+       animation.setInterpolator(new AccelerateDecelerateInterpolator());
+       ObjectAnimator animation2=ObjectAnimator.ofFloat(graphicImage,"alpha",0f,1.0f);
+       animation2.setDuration(300);
+       AnimatorSet animatorSet = new AnimatorSet();
+       animatorSet.playTogether(animation2, animation);
+       animation.start();
 
 
     }
