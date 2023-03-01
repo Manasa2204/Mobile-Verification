@@ -16,7 +16,7 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
 
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+
         <item name="android:windowSharedElementEnterTransition">@transition/auto_transition</item>
 <!--        <item name="android:windowSharedElementEnterTransition">@transition/fade_in</item>-->
 <!--        <item name="android:windowSharedElementExitTransition">@transition/fade_out</item>-->
