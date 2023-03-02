@@ -1,5 +1,6 @@
 package com.example.mobileverification;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -39,27 +40,49 @@ public class LineView extends View {
         endY = 50;
         rect = new RectF(50, 50, 500, 500);
 
+
+
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawLine(startX, startY, endX, endY, paint);
-//        canvas.drawColor(Color.BLACK);
+        Path sPath = new Path();
+        sPath.moveTo(100, 100);
+        sPath.lineTo(300, 100);
+        sPath.lineTo(300, 300);
+        sPath.lineTo(100,300);
+        sPath.lineTo(100,100);
+        sPath.close();
+
+//        Paint ballPaint = new Paint();
+//        ballPaint.setColor(Color.GREEN);
+        Paint pathPaint = new Paint();
+        pathPaint.setColor(Color.BLUE);
+
+//        canvas.drawPath(sPath, ballPaint);
+//        canvas.drawCircle(100,100,20,pathPaint);
+
+        canvas.drawLine(startX, startY, endX, endY, pathPaint);
+//
     }
 
     public void startAnimation() {
         final long duration = 3000;
         final long startTime = System.currentTimeMillis();
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                float progress = (float) elapsedTime / duration;
-                updateLinePosition(progress);
-                postInvalidate();
-            }
-        }, 0, 30);
+
+
+
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                long elapsedTime = System.currentTimeMillis() - startTime;
+//                float progress = (float) elapsedTime / duration;
+//                updateLinePosition(progress);
+//                postInvalidate();
+//            }
+//        }, 0, 30);
     }
 
     private void updateLinePosition(float progress) {
