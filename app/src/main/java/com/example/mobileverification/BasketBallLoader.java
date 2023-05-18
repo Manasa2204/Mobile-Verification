@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.Constraints;
 
 public class BasketBallLoader extends ConstraintLayout {
     Context context;
+    ImageView ball;
     public BasketBallLoader(@NonNull Context context) {
         super(context);
         this.context=context;
@@ -33,7 +34,7 @@ public class BasketBallLoader extends ConstraintLayout {
         ringLayoutParams.endToEnd=getId();
         ring.setLayoutParams(ringLayoutParams);
 
-        ImageView ball= new ImageView(context);
+        ball= new ImageView(context);
         ball.setId(View.generateViewId());
         ball.setImageResource(R.drawable.gradient_circle);
 //        ball.setBackground(drawCircle(ContextCompat.getColor(this,R.color.black),Color.parseColor("#ffffff")));
@@ -46,6 +47,9 @@ public class BasketBallLoader extends ConstraintLayout {
         ballLayoutParams.bottomToBottom=ring.getId();
         ball.setLayoutParams(ballLayoutParams);
 
+    }
+
+    public void startAnimation() {
         ObjectAnimator translateY = ObjectAnimator.ofFloat(ball, "translationY", ball.getY()-50).setDuration(400);
         ObjectAnimator scaleY= ObjectAnimator.ofFloat(ball,"scaleY",0.7f, 1f).setDuration(500);
         scaleY.setRepeatCount(ObjectAnimator.INFINITE);
@@ -55,7 +59,6 @@ public class BasketBallLoader extends ConstraintLayout {
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.playTogether(translateY,scaleY);
         animatorSet.start();
-
-
     }
+
 }

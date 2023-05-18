@@ -85,6 +85,12 @@ public class EmailVerficationActivity extends AppCompatActivity {
        animatorSet.playTogether(animation2, animation);
        animation.start();
 
+       nextButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+         startActivity(new Intent(EmailVerficationActivity.this,BottomScreenLoaderActivity.class));
+        }
+       });
 
     }
 

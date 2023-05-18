@@ -56,6 +56,7 @@ public class BasketBallLoaderActivity extends AppCompatActivity {
 
         BasketBallLoader basketBallLoader= new BasketBallLoader(this);
         linearLayout.addView(basketBallLoader);
+        basketBallLoader.startAnimation();
 
         LinearLayout.LayoutParams loaderLayoutParams= new LinearLayout.LayoutParams(100,150);
         loaderLayoutParams.setMargins(loaderLayoutParams.leftMargin,loaderLayoutParams.topMargin,20,-10);
